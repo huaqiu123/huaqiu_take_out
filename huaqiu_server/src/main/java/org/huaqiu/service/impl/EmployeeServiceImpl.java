@@ -2,6 +2,7 @@ package org.huaqiu.service.impl;
 import org.huaqiu.constant.MessageConstant;
 import org.huaqiu.constant.PasswordConstant;
 import org.huaqiu.constant.StatusConstant;
+import org.huaqiu.context.BaseContext;
 import org.huaqiu.dto.EmployeeDTO;
 import org.huaqiu.dto.EmployeeLoginDTO;
 import org.huaqiu.entity.Employee;
@@ -65,27 +66,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void save(EmployeeDTO employeeDTO) {
         System.out.println(employeeDTO);
-
         Employee employee = new Employee();
-
         BeanUtils.copyProperties(employeeDTO,employee);
-
         employee.setStatus(StatusConstant.ENABLE);
-
-
-
         employee.setPassword( DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
-
-
-
         employee.setCreateTime(LocalDateTime.now());
         employee.setUpdateTime(LocalDateTime.now());
-
-        employee.setCreateUser(2L);
-        employee.setUpdateUser(2L);
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
-
     }
 
 }
