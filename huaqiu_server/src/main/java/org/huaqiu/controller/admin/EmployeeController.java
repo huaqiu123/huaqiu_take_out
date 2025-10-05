@@ -68,6 +68,15 @@ public class EmployeeController {
 //        employeeService.save();
         return Result.success();
     }
+    @GetMapping("page")
+    public Result page( EmployeePageDTO employeePageDTO){
+
+        System.out.println(employeePageDTO);
+
+        PageResult pageResult = employeeService.pageQuery(employeePageDTO);
+
+        return Result.success(pageResult);
+    }
 
 
 }

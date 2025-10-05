@@ -1,14 +1,19 @@
 package org.huaqiu.service.impl;
+import com.github.pagehelper.PageHelper;
+import java.util.List;
+import com.github.pagehelper.Page;
 import org.huaqiu.constant.MessageConstant;
 import org.huaqiu.constant.PasswordConstant;
 import org.huaqiu.constant.StatusConstant;
 import org.huaqiu.context.BaseContext;
 import org.huaqiu.dto.EmployeeDTO;
 import org.huaqiu.dto.EmployeeLoginDTO;
+import org.huaqiu.dto.EmployeePageDTO;
 import org.huaqiu.entity.Employee;
 import org.huaqiu.exception.AccountLockException;
 import org.huaqiu.exception.AccountNotFoundException;
 import org.huaqiu.exception.PasswordErrorException;
+import org.huaqiu.result.PageResult;
 import org.huaqiu.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import org.huaqiu.mapper.*;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.Properties;
 
 /**
  * 实现用户service层
@@ -26,6 +32,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;
+
+
 
     @Override
     public Employee login(EmployeeLoginDTO employeeLoginDTO) {
@@ -77,5 +85,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeMapper.insert(employee);
     }
+
+    @Override
+    public PageResult pageQuery(EmployeePageDTO employeePageDTO) {
+//        开始分页查询
+        PageHelper.startPage(employeePageDTO.getPage(), employeePageDTO.getPageSize());
+
+        Page<Employee> page = employeeMapper.pageQuery(employeePageDTO);
+
+        long total = page.getTotal();
+        List<Employee> records = page.getResult();
+
+        return new PageResult(total, records);
+    }
+
 
 }
