@@ -1,15 +1,59 @@
 package org.huaqiu.service.impl;
-
+import org.huaqiu.constant.MessageConstant;
+import org.huaqiu.constant.StatusConstant;
+import org.huaqiu.dto.EmployeeDTO;
 import org.huaqiu.dto.EmployeeLoginDTO;
 import org.huaqiu.entity.Employee;
+import org.huaqiu.exception.AccountLockException;
+import org.huaqiu.exception.AccountNotFoundException;
+import org.huaqiu.exception.PasswordErrorException;
 import org.huaqiu.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.huaqiu.mapper.*;
+import org.springframework.util.DigestUtils;
+/**
+ * 实现用户service层
+ */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
     @Override
     public Employee login(EmployeeLoginDTO employeeLoginDTO) {
-        System.out.println("nihao");
-        return null;
+        String username = employeeLoginDTO.getUsername();
+        String password = employeeLoginDTO.getPassword();
+
+        Employee employee = employeeMapper.getByUsername(username);
+
+        System.out.println(employee);
+
+        if(employee == null){
+            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+
+        password= DigestUtils.md5DigestAsHex(password.getBytes());
+
+
+        if(!password.equals(employee.getPassword())){
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+
+        if(employee.getStatus() == StatusConstant.DISABLE){
+
+            throw new AccountLockException(MessageConstant.ACCOUNT_LOCKED);
+        }
+
+        return employee;
+
+
     }
+
+    @Override
+    public void save(EmployeeDTO employeeDTO) {
+
+    }
+
 }

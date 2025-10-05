@@ -1,7 +1,41 @@
 package org.huaqiu.entity;
 
-public class Employee {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    private int id;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class Employee implements Serializable {
+
+    private Long id;
+
+    private String username;
+
+    private String name;
+
+    private String password;
+
+    private String phone;
+
+    private String sex;
+
+    private String idNumber;
+
+    private Integer status;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
+
+    private Long createUser;
+
+    private Long updateUser;
+
 
 }
