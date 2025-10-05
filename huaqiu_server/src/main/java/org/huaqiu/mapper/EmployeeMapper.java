@@ -8,13 +8,6 @@ import org.huaqiu.entity.*;
 
 @Mapper
 public interface EmployeeMapper {
-
     Employee getByUsername(String username);
-
     void insert(Employee employee);
-
-
-
-
-
 }
