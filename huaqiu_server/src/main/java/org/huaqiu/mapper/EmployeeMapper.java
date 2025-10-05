@@ -1,14 +1,18 @@
 package org.huaqiu.mapper;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.huaqiu.constant.StatusConstant;
 import org.huaqiu.entity.*;
 
 @Mapper
 public interface EmployeeMapper {
 
-    @Select("select * from employee where username = #{username}")
     Employee getByUsername(String username);
+
+    void insert(Employee employee);
+
 
 
 

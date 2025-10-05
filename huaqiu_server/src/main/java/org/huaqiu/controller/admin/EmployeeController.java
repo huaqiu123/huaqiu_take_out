@@ -59,13 +59,12 @@ public class EmployeeController {
 
         return Result.success(employeeLoginVO);
     }
-    @GetMapping
-    public void  HelloWorld(){
-        System.out.println("HelloWorld");
-    }
 
-    public Result save(@RequestBody EmployeeLoginDTO employeeLoginDTO){
-        System.out.println(employeeLoginDTO);
+    @PostMapping
+    @ApiOperation(value = "添加员工")
+    public Result save(@RequestBody EmployeeDTO employeeDTO){
+        System.out.println(employeeDTO);
+        employeeService.save(employeeDTO);
 
 //        employeeService.save();
         return Result.success();
