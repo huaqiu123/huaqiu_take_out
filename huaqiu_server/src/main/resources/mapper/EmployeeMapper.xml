@@ -40,4 +40,8 @@
         where id = #{id}
     </update>
 
+    <select id="getById" resultType="org.huaqiu.entity.Employee">
+        select * from employee where id = #{id}
+    </select>
 </mapper>
+
