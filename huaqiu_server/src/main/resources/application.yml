@@ -27,3 +27,7 @@ mybatis:
     #开启驼峰命名
     map-underscore-to-camel-case: true
 
+logging:
+  file:
+
+    name: D:/wgc/huaqiu_take_out/huaqiu_take_out/mylog

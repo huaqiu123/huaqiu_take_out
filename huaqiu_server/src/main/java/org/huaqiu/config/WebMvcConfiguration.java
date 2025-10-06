@@ -1,13 +1,12 @@
 package org.huaqiu.config;
-
+import org.huaqiu.json.*;
 import lombok.extern.slf4j.Slf4j;
 import org.huaqiu.interceptor.JwtTokenAdminInterceptor;
-import org.huaqiu.properties.properties.JwtProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -17,6 +16,8 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+
+import java.util.List;
 
 @Configuration
 @Slf4j
@@ -39,6 +40,19 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     }
 
+    /**
+     * 消息转换器 将java对象序列化为json数据
+     * @param converters
+     */
+    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        log.info("扩展消息转换器...");
+        //创建一个消息转换器对象
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        //需要为消息转换器设置一个对象转换器，对象转换器可以将Java对象序列化为json数据
+        converter.setObjectMapper(new JacksonObjectMapper());
+        //将自己的消息转化器加入容器中
+        converters.add(0,converter);
+    }
     /**
      * 默认的文档
      * @return

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.ResultType;
 import org.huaqiu.constant.JwtClaimsConstant;
+import org.huaqiu.constant.MessageConstant;
 import org.huaqiu.dto.EmployeeLoginDTO;
 import org.huaqiu.properties.properties.JwtProperties;
 import org.huaqiu.utils.JwtUtil;
@@ -68,6 +69,8 @@ public class EmployeeController {
 //        employeeService.save();
         return Result.success();
     }
+    @ApiOperation("分页查询员工"
+    )
     @GetMapping("page")
     public Result page( EmployeePageDTO employeePageDTO){
 
@@ -77,6 +80,14 @@ public class EmployeeController {
 
         return Result.success(pageResult);
     }
+    @ApiOperation("启用禁用员工")
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable Integer status,Long id){
 
+        log.info("启用或者 停止使用用户 {}，{}",status,id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
+
+    }
 
 }

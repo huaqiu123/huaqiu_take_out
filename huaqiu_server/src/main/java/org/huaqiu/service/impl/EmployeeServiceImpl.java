@@ -2,6 +2,7 @@ package org.huaqiu.service.impl;
 import com.github.pagehelper.PageHelper;
 import java.util.List;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Mapper;
 import org.huaqiu.constant.MessageConstant;
 import org.huaqiu.constant.PasswordConstant;
 import org.huaqiu.constant.StatusConstant;
@@ -98,6 +99,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return new PageResult(total, records);
     }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        Employee employee = new Employee();
+        employee.setStatus(status);
+        employee.setId(id);
+        employeeMapper.update(employee);
+
+
+    }
+
 
 
 }
